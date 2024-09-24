@@ -1,4 +1,5 @@
 // hoffy.js
+import * as fs from 'fs';
 
 function getEvenParam(s1, s2, ...s3){
 
@@ -13,9 +14,9 @@ function getEvenParam(s1, s2, ...s3){
         s3.unshift(s1,s2);
     }
 
-    let newArr = s3.filter(elem => s3.indexOf(elem)%2 == 0)
+    const newArr = s3.filter(elem => s3.indexOf(elem)%2 === 0);
 
-    return newArr
+    return newArr;
 }
 
 function myFlatten (arr2d){ 
@@ -25,22 +26,22 @@ function myFlatten (arr2d){
 
 function maybe(fn){
     return (...args) => {
-        let check = args.filter((elem) => elem !== undefined && elem !== null);
+        const check = args.filter((elem) => elem !== undefined && elem !== null);
 
-        if(args.length == check.length){
+        if(args.length === check.length){
             return fn(...args);
         }
         else{
             return undefined;
         }
-    }
+    };
 }
 
 
 function filterWith(fn){
     return (arg) => {
-        return arg.filter((elem) => fn(elem))
-    }
+        return arg.filter((elem) => fn(elem));
+    };
 }
 
 function repeatCall(fn, n, arg){
@@ -48,7 +49,50 @@ function repeatCall(fn, n, arg){
         return;
     }
     fn(arg);
-    repeatCall(fn, n-1, arg)
+    repeatCall(fn, n-1, arg);
 }
 
-export {filterWith, getEvenParam, myFlatten, maybe, repeatCall}
+function limitCallsDecorator(fn, n){
+    let cnt = n;
+    return (...args) => {
+        if(cnt === 0){
+            return undefined;
+        }
+        else{
+            cnt--;
+            return fn(...args);
+        }
+    };
+}
+
+function myReadFile(fileName, successFn, errorFn){
+    fs.readFile(fileName, "utf8", (err, data) => {
+        if (err) {
+            errorFn(err);
+        }
+        else{
+            successFn(data);
+        }
+    });
+}
+
+function stringFieldToList(data, key){
+    const arr = data[key].split(',').map(s => s.trim());
+
+    data[key] = arr;
+
+    return data;
+}
+
+function rowsToObjects(data){
+    const headers = data['headers'];
+    const rows = data['rows'];
+    return rows.map(row => 
+        headers.reduce((acc, header, index) => {
+            acc[header] = row[index]; 
+            return acc;
+        }, {})
+    );
+}
+
+export {filterWith, getEvenParam, myFlatten, maybe, repeatCall, limitCallsDecorator, myReadFile, stringFieldToList, rowsToObjects};
