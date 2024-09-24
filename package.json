@@ -1,0 +1,26 @@
+{
+  "type": "module",
+  "name": "homework02-danchoponch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.11.0",
+    "chai": "^5.1.1",
+    "eslint": "^9.11.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "globals": "^15.9.0",
+    "mocha": "^10.7.3",
+    "mocha-sinon": "^2.1.2",
+    "sinon": "^19.0.2"
+  }
+}

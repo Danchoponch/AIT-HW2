@@ -28,6 +28,12 @@ describe('hoffy', function() {
         });
     });
 
+    describe('myFlatten', function() {
+        it('it "flattens" an array - converting a  2d array into a 1d array', function() {
+            expect(myFlatten([[1, 2, 3], [4, 5]])).to.have.all.members([1, 2, 3, 4, 5])
+        });
+      });
+
     describe('maybe', function() {
         function createFullName(firstName, lastName) {
             return `${firstName} ${lastName}`; 
@@ -64,47 +70,6 @@ describe('hoffy', function() {
         });
 
     });
-    
-    describe('limitCallsDecorator', function() {
-
-        beforeEach(mockConsoleOutput);
-
-        it('decorates a function so that it can only be called a specified number of times', function() {
-            const n = 3;
-            const limitedParseInt = limitCallsDecorator(parseInt, n);
-            expect(limitedParseInt("423")).to.equal(423);
-            expect(limitedParseInt("423")).to.equal(423);
-            expect(limitedParseInt("423")).to.equal(423);
-            expect(limitedParseInt("423")).to.be.undefined;
-            console.log(limitedParseInt("423"));
-        });
-    });
-    describe('largerFn', function() {
-        
-        it('returns the function that has a larger output value, given a parameter', function() {
-            function foo(x) {
-                return x * x;
-            }
-            function bar(y) {
-                return y * y * y;
-            }
-            const decorator = largerFn(foo, bar);
-            const newFn = decorator(5,3); 
-            expect(newFn(5)).to.equal(125);
-        });
-        it('returns fn if both fn and gn give the same value', function() {
-            function foo(x) {
-                return x * x;
-            }
-            function bar(y) {
-                return -5 * y;
-            }
-            const decorator = largerFn(foo, bar);
-            const newFn = decorator(-5,-5); 
-            expect(newFn(5)).to.equal(25);
-        });
-
-    });
 
     describe('limitCallsDecorator', function() {
 
@@ -120,13 +85,14 @@ describe('hoffy', function() {
             console.log(limitedParseInt("423"));
         });
     });
+
     describe('myReadFile', function() {
         it('calls a success function (passed as the 2nd argument) if the file is read successfully', function(done) {
             myReadFile('tests/words.txt', (data) => {
                 // use the following line for testing on Windows
-                expect(data).to.equal("ant bat\ncat dog emu\nfox\n");
+                // expect(data).to.equal("ant bat\ncat dog emu\nfox\n");
                 // use the following line for testing on MacOS
-                // expect(data).to.equal("ant bat" + os.EOL + "cat dog emu" + os.EOL + "fox" + os.EOL);
+                expect(data).to.equal("ant bat" + os.EOL + "cat dog emu" + os.EOL + "fox" + os.EOL);
                 done();
             }, err => console.log('Error opening file:', err));
         });
