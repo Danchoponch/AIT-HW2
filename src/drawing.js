@@ -15,11 +15,18 @@ class GenericElement{
         this[name] = value;
     }
 
-    addAttrs(obj){
-        Object.keys(obj).reduce((_, key) => {
-            this[key] = obj[key];
-        }, null);
+    addAttrsRec(keys, obj){
+        if (keys.length === 0){
+            return;
+        }
 
+        this[keys[0]] = obj[keys[0]];
+        this.addAttrsRec(keys.slice(1), obj);
+    }
+    
+    addAttrs(obj){
+        const keys = Object.keys(obj);
+        this.addAttrsRec(keys, obj);
     }
 
     toString() {
