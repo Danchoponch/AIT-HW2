@@ -22,5 +22,8 @@
     "mocha": "^10.7.3",
     "mocha-sinon": "^2.1.2",
     "sinon": "^19.0.2"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.6"
   }
 }
